@@ -9,13 +9,21 @@ namespace Library.Entities.Abstracts {
         }
 
         public Position Position { get; set; }
-        public int StartX { get { return Configuration.GridSizeX * Position.x; } }
-        public int StartY { get { return Configuration.GridSizeY * Position.y; } }
+        public int StartX { get {
+            return Configuration.GridSizeX *
+                (Position.x-World.Singleton.ViewPosition.x);
+        } }
+        public int StartY { get {
+            return Configuration.GridSizeY *
+                (Position.y - World.Singleton.ViewPosition.y);
+        } }
         public int Width { get { return Configuration.GridSizeX; } }
         public int Height { get { return Configuration.GridSizeY; } }
 
         public void Draw(Graphics g) {
-            g.FillEllipse(Brushes.Black, new Rectangle(StartX, StartY, Width, Height));
+            DrawInSquare(g, new Rectangle(StartX, StartY, Width, Height));
         }
+
+        protected abstract void DrawInSquare(Graphics g, Rectangle boundingBox);
     }
 }

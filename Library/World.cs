@@ -1,5 +1,6 @@
 ﻿using Library.Config;
 using Library.Entities.Abstracts;
+using Library.Util;
 
 namespace Library {
     public class World {
@@ -10,11 +11,11 @@ namespace Library {
             }
         }
 
-        public (int x, int y) ViewPosition { get; private set; }
+        public Position ViewPosition { get; set; }
         public List<Creature> Creatures { get; private set; }
 
         private World() {
-            ViewPosition = (0, 0);
+            ViewPosition = new Position(0, 0);
             Creatures = new List<Creature>();
 
             string configPath = Directory.GetCurrentDirectory() + "\\config_file.xml";
@@ -23,7 +24,7 @@ namespace Library {
         }
 
         public void OnKeyDown(KeyEventArgs e) {
-            
+            InputHandler.Singleton.HandleInput(e);
         }
 
         public void OnPaint(PaintEventArgs e) {

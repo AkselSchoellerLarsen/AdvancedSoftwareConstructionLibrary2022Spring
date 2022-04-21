@@ -11,5 +11,9 @@ namespace LibraryTest.Entities {
         public Player(Position pos) : base(pos) {
         
         }
+
+        protected override void DrawInSquare(Graphics g, Rectangle boundingBox) {
+            g.FillEllipse(Brushes.Black, boundingBox);
+        }
     }
 }

@@ -13,6 +13,8 @@ namespace LibraryTest {
         }
 
         private static void SetupGameWorld() {
+            World.Singleton.ViewPosition = new Position(0, 0);
+            
             World.Singleton.Creatures.Add(new Player(new Position(0, 0)));
             World.Singleton.Creatures.Add(new Player(new Position(1, 1)));
             World.Singleton.Creatures.Add(new Player(new Position(5, 5)));

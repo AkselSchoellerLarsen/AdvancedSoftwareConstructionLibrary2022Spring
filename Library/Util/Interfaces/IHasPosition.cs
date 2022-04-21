@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.Entities.Interfaces {
+namespace Library.Util.Interfaces {
     public interface IHasPosition {
         public Position Position { get; set; }
     }
