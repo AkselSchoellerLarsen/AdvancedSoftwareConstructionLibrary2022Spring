@@ -61,30 +61,50 @@ namespace Library.Entities.Abstracts {
         protected abstract int BaseDefencePower { get; }
 
         public void TryMoveTo(Position target) {
-            Entity e = World.Singleton.PositionOccupiedBy(target);
-            if (e == null) {
-                Position = target;
-            } else if (e is Structure) {
-                Structure s = (Structure)e;
-                if (s.EffectOnTryEnter(this, Position)) {
-                    Position = target;
-                }
-            } else if (e is WorldItem) {
-                WorldItem i = (WorldItem)e;
-                if (i.CanPickup(this)) {
-                    i.OnPickup(this);
-                    if (i.TakesMovementToPickup(this)) {
+            #region Tracing
+            World.Singleton.Trace($"{this} is trying to move to {target}");
+            #endregion
+
+            Entity? e = World.Singleton.PositionOccupiedBy(target);
+            if (e != null) {
+                if (e is Structure) {
+                    Structure s = (Structure)e;
+                    if (!s.EffectOnTryEnter(this, Position)) {
+                        #region Tracing
+                        World.Singleton.Trace($"{this} failed to enter {s}");
+                        #endregion
                         return;
-                    } else {
-                        Position = target;
                     }
-                } else if(i.AllowWalkover(this)) {
-                    Position = target;
+                } else if (e is WorldItem) {
+                    WorldItem i = (WorldItem)e;
+                    if (i.CanPickup(this)) {
+                        i.OnPickup(this);
+                        #region Tracing
+                        World.Singleton.Trace($"{this} picked up {i}");
+                        #endregion
+                        if (i.TakesMovementToPickup(this)) {
+                            return;
+                        }
+                    } else if (!i.AllowWalkover(this)) {
+                        #region Tracing
+                        World.Singleton.Trace($"{this} walked over {i}");
+                        #endregion
+                        return;
+                    }
+                } else if (e is Creature) {
+                    Creature c = (Creature)e;
+                    c.OnAttacked(this);
+                    #region Tracing
+                    World.Singleton.Trace($"{this} attacked {c}");
+                    #endregion
+                    return;
                 }
-            } else if (e is Creature) {
-                Creature c = (Creature)e;
-                c.OnAttacked(this);
             }
+            Position = target;
+
+            #region Tracing
+            World.Singleton.Trace($"{this} moved to {target}");
+            #endregion
         }
 
         public virtual void OnAttacked(Creature attacker) {

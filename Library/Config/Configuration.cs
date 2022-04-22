@@ -12,6 +12,8 @@ namespace Library.Config {
         public static int ScreenSizeY = 600;
         public static int GridSizeX = 50;
         public static int GridSizeY = 50;
+        public static bool ShouldConsoleTrace = true;
+        public static bool ShouldFileTrace = true;
 
         public static void LoadConfig(string configFilePath) {
             try {

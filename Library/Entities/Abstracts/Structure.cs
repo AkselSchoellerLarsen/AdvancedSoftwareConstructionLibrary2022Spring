@@ -13,5 +13,16 @@ namespace Library.Entities.Abstracts {
         }
 
         public abstract bool EffectOnTryEnter(Creature creature, Position from);
+
+        public override bool Equals(object? obj) {
+            if (obj == null) { return false; }
+            if (obj is Structure) {
+                Structure s = (Structure)obj;
+                if (s.Position == this.Position) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

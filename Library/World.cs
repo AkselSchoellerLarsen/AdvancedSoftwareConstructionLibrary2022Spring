@@ -1,9 +1,39 @@
 ﻿using Library.Config;
 using Library.Entities.Abstracts;
 using Library.Util;
+using System.Diagnostics;
 
 namespace Library {
     public class World {
+        #region Tracing
+        private TraceSource ts = new TraceSource("Library.World");
+        private TraceListener consoleTrace = new ConsoleTraceListener();
+        private TraceListener fileTrace = new TextWriterTraceListener("Logs/Log.txt");
+
+        private void TraceSetup() {
+            ts.Switch = new SourceSwitch("Library Tracing", "All");
+            ts.Listeners.Add(consoleTrace);
+            ts.Listeners.Add(fileTrace);
+        }
+        public void Trace(string s, string catagory = "information") {
+            ConsoleWrite(s, catagory);
+            LogWrite(s, catagory);
+        }
+        private void ConsoleWrite(string s, string catagory = "information") {
+            if (Configuration.ShouldConsoleTrace) {
+                consoleTrace.WriteLine(s, catagory);
+                consoleTrace.Flush();
+            }
+        }
+        private void LogWrite(string s, string catagory = "information") {
+            if (Configuration.ShouldFileTrace) {
+                fileTrace.WriteLine($"At {DateTime.Now}: " + s, catagory);
+                fileTrace.Flush();
+            }
+        }
+        #endregion
+
+
         private static World instance = new World();
         public static World Singleton {
             get {
@@ -17,14 +47,25 @@ namespace Library {
         public List<WorldItem> Items { get; private set; }
 
         private World() {
+            #region Tracing
+            TraceSetup();
+            #endregion
+
             ViewPosition = new Position(0, 0);
             Creatures = new List<Creature>();
             Structures = new List<Structure>();
             Items = new List<WorldItem>();
 
+            #region Tracing
+            Trace("Attempting to configure");
+            #endregion
             string configPath = Directory.GetCurrentDirectory() + "\\config_file.xml";
             Configuration.LoadConfig(configPath);
             Configuration.SaveConfig(configPath);
+            #region Tracing
+            Trace("Configuration completed");
+            #endregion
+
         }
 
         public void Tick() {
@@ -33,22 +74,31 @@ namespace Library {
             }
         }
 
-        public Entity PositionOccupiedBy(Position? pos) {
-            foreach (Creature creature in Creatures) {
-                if (creature.Position == pos) {
-                    return creature;
+        public Entity? PositionOccupiedBy(Position pos) {
+            Structure? structure = Structures.Find((s) => {
+                if (s.Position == pos) {
+                    return true;
                 }
-            }
-            foreach (Structure structure in Structures) {
-                if (structure.Position == pos) {
-                    return structure;
+                return false;
+            });
+            if (structure != null) { return structure; }
+
+            Creature? creature = Creatures.Find((c) => {
+                if(c.Position == pos) {
+                    return true;
                 }
-            }
-            foreach (WorldItem item in Items) {
-                if (item.Position == pos) {
-                    return item;
+                return false;
+            });
+            if(creature != null) { return creature; }
+
+            WorldItem? item = Items.Find((i) => {
+                if (i.Position == pos) {
+                    return true;
                 }
-            }
+                return false;
+            });
+            if (creature != null) { return creature; }
+
             return null;
         }
 
