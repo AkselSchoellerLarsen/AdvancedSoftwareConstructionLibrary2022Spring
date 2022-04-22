@@ -31,7 +31,7 @@ namespace Library {
 
         }
 
-        public Entity PositionOccupiedBy(Position pos) {
+        public Entity PositionOccupiedBy(Position? pos) {
             foreach (Creature creature in Creatures) {
                 if (creature.Position == pos) {
                     return creature;
@@ -47,6 +47,7 @@ namespace Library {
                     return item;
                 }
             }
+            return null;
         }
 
         public void OnKeyDown(KeyEventArgs e) {
