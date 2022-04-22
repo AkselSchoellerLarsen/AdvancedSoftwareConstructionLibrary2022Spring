@@ -1,29 +1,42 @@
-﻿using Library.Config;
-using Library.Entities.Interfaces;
-using Library.Util;
+﻿using Library.Util;
 
 namespace Library.Entities.Abstracts {
-    public abstract class Creature : ICreature {
-        public Creature(Position pos) {
-            Position = pos;
+    public abstract class Creature : Entity {
+        protected Creature(Position pos) : base(pos) {
+
         }
 
-        public Position Position { get; set; }
-        public int StartX { get {
-            return Configuration.GridSizeX *
-                (Position.x-World.Singleton.ViewPosition.x);
-        } }
-        public int StartY { get {
-            return Configuration.GridSizeY *
-                (Position.y - World.Singleton.ViewPosition.y);
-        } }
-        public int Width { get { return Configuration.GridSizeX; } }
-        public int Height { get { return Configuration.GridSizeY; } }
 
-        public void Draw(Graphics g) {
-            DrawInSquare(g, new Rectangle(StartX, StartY, Width, Height));
+        public void TryMoveTo(Position target) {
+            Entity e = World.Singleton.PositionOccupiedBy(target);
+            if (e == null) {
+                Position = target;
+            } else if (e is Structure) {
+                Structure s = (Structure)e;
+                if (s.EffectOnTryEnter(this, Position)) {
+                    Position = target;
+                }
+            } else if (e is WorldItem) {
+                WorldItem i = (WorldItem)e;
+                if (i.CanPickup(this)) {
+                    i.OnPickup(this);
+                    if (i.TakesMovementToPickup(this)) {
+                        return;
+                    } else {
+                        Position = target;
+                    }
+                } else if(i.AllowWalkover(this)) {
+                    Position = target;
+                }
+            } else if (e is Creature) {
+                Creature c = (Creature)e;
+                c.OnAttacked(this);
+            }
         }
 
-        protected abstract void DrawInSquare(Graphics g, Rectangle boundingBox);
+        public abstract void OnAttacked(Creature attacker);
+
+        public abstract void Tick();
+
     }
 }

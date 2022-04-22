@@ -27,7 +27,7 @@ namespace Library.Util {
             _listeners[listener.ListensFor()].Add(listener);
         }
         public void HandleInput(KeyEventArgs input) {
-            if (Listeners[input.KeyCode] != null) {
+            if (Listeners.ContainsKey(input.KeyCode)) {
                 foreach (InputListener il in Listeners[input.KeyCode]) {
                     il.OnInput(input);
                 }

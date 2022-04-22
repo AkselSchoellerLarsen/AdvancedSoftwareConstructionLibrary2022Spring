@@ -19,6 +19,22 @@ namespace LibraryTest {
             World.Singleton.Creatures.Add(new Player(new Position(1, 1)));
             World.Singleton.Creatures.Add(new Player(new Position(5, 5)));
 
+            InputHandler.Singleton.AddInputListener(
+                new InputListener(Keys.W, (k) => {
+                    World.Singleton.ViewPosition.y--;
+                }));
+            InputHandler.Singleton.AddInputListener(
+                new InputListener(Keys.S, (k) => {
+                    World.Singleton.ViewPosition.y++;
+                }));
+            InputHandler.Singleton.AddInputListener(
+                new InputListener(Keys.D, (k) => {
+                    World.Singleton.ViewPosition.x++;
+                }));
+            InputHandler.Singleton.AddInputListener(
+                new InputListener(Keys.A, (k) => {
+                    World.Singleton.ViewPosition.x--;
+                }));
         }
     }
 }

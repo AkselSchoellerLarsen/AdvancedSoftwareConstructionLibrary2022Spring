@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Library.Entities.Interfaces {
-    public interface ICreature : IHasPosition {
+    public interface IEntity : IHasPosition {
         public void Draw(Graphics g);
     }
 }
