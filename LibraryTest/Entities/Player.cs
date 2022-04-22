@@ -17,7 +17,7 @@ namespace LibraryTest.Entities {
         protected override int BaseDefencePower => 1;
 
         public Player(Position pos) : base(pos) {
-            HitPoints = 4;
+            HitPoints = 1;
 
             //Maybe place WASD controls here?
         }
@@ -33,15 +33,21 @@ namespace LibraryTest.Entities {
             while (y < 10 && y > -10) {
                 y = r.Next(-20, 20);
             }
-
             Position p = new Position(Position.x + x, Position.y + y);
-            if(true) {
-                World.Singleton.Creatures.Add(new AI(p));
-            } else if (false) {
-                World.Singleton.Structures.Add(new Wall(p));
-            } else if(false) {
 
+            if(World.Singleton.PositionOccupiedBy(p) == null) {
+                int i = r.Next(10);
+                if(i < 2) {
+                    World.Singleton.Creatures.Add(new AI(p));
+                } else if (i < 5) {
+                    World.Singleton.Structures.Add(new Wall(p));
+                } else if(i < 9) {
+                    World.Singleton.Items.Add(new Apple(p, r.Next(1, 4)));
+                } else {
+                    //Spawn equipment
+                }
             }
+            World.Singleton.ViewPosition = new Position(Position.x-5, Position.y-5);
         }
 
         public override void Draw(Graphics g) {

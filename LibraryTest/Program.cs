@@ -22,28 +22,24 @@ namespace LibraryTest {
                 player.TryMoveTo(
                     new Position(player.Position.x,
                     player.Position.y - 1));
-                World.Singleton.ViewPosition.y--;
                 World.Singleton.Tick();
             });
             new InputListener(Keys.S, (k) => {
                 player.TryMoveTo(
                     new Position(player.Position.x,
                     player.Position.y + 1));
-                World.Singleton.ViewPosition.y++;
                 World.Singleton.Tick();
             });
             new InputListener(Keys.D, (k) => {
             player.TryMoveTo(
                 new Position(player.Position.x + 1,
                 player.Position.y));
-                World.Singleton.ViewPosition.x++;
                 World.Singleton.Tick();
             });
             new InputListener(Keys.A, (k) => {
                 player.TryMoveTo(
                     new Position(player.Position.x - 1,
                     player.Position.y));
-                World.Singleton.ViewPosition.x--;
                 World.Singleton.Tick();
             });
 

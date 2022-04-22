@@ -22,6 +22,11 @@ namespace Library.Util {
         }
 
         public static bool operator ==(Position pos1, Position pos2) {
+            if(pos1 is null) {
+                return pos2 is null;
+            } if (pos2 is null) {
+                return pos1 is null;
+            }
             if(pos1.x == pos2.x && pos1.y == pos2.y) {
                 return true;
             }

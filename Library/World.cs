@@ -98,7 +98,7 @@ namespace Library {
                 }
                 return false;
             });
-            if (creature != null) { return creature; }
+            if (item != null) { return item; }
 
             return null;
         }

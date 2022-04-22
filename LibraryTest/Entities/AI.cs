@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace LibraryTest.Entities {
     public class AI : Creature {
         public AI(Position pos) : base(pos) {
-            HitPoints = 5;
+            HitPoints = 4;
         }
 
         protected override int BaseHitPoints => 5;
