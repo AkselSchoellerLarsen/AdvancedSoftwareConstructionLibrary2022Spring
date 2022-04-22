@@ -29,6 +29,10 @@ namespace Library.Entities.Abstracts {
         public int Width { get { return Configuration.GridSizeX; } }
         public int Height { get { return Configuration.GridSizeY; } }
 
-        public abstract void Draw(Graphics g);
+        public void Draw(Graphics g) {
+            DrawInSquare(g, new Rectangle(StartX, StartY, Width, Height));
+        }
+
+        protected abstract void DrawInSquare(Graphics g, Rectangle boundingBox);
     }
 }

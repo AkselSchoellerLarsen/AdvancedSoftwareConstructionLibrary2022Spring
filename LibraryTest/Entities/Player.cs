@@ -1,5 +1,4 @@
-﻿using Library.Config;
-using Library.Entities.Abstracts;
+﻿using Library.Entities.Abstracts;
 using Library.Util;
 using System;
 using System.Collections.Generic;
@@ -13,22 +12,8 @@ namespace LibraryTest.Entities {
         
         }
 
-        public override void OnAttacked(Creature attacker) {
-            throw new NotImplementedException();
-        }
-
-        public override void Tick() {
-            throw new NotImplementedException();
-        }
-
-        public override void Draw(Graphics g) {
-            g.FillEllipse(new SolidBrush(Color.Black),
-                GraphicsHelper.RectangleCenteredOn(Position,
-                Configuration.GridSizeX, Configuration.GridSizeY));
-
-            g.FillEllipse(new SolidBrush(Color.White),
-                GraphicsHelper.RectangleCenteredOn(Position,
-                (int)(Configuration.GridSizeX*0.3), (int)(Configuration.GridSizeY*0.3)));
+        protected override void DrawInSquare(Graphics g, Rectangle boundingBox) {
+            g.FillEllipse(Brushes.Black, boundingBox);
         }
     }
 }
