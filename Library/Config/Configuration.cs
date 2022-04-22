@@ -38,15 +38,15 @@ namespace Library.Config {
 
                 IEnumerable<XElement> consoleTrace =
                     doc.Descendants().Where(tag => tag.Name == "ShouldConsoleTrace");
-                GridSizeY = int.Parse(gridY.ToList()[0].Value);
+                ShouldConsoleTrace = bool.Parse(consoleTrace.ToList()[0].Value);
 
                 IEnumerable<XElement> fileTrace =
                     doc.Descendants().Where(tag => tag.Name == "ShouldFileTrace");
-                GridSizeY = int.Parse(gridY.ToList()[0].Value);
+                ShouldFileTrace = bool.Parse(fileTrace.ToList()[0].Value);
 
                 IEnumerable<XElement> logLevel =
                     doc.Descendants().Where(tag => tag.Name == "LogLevel");
-                GridSizeY = int.Parse(gridY.ToList()[0].Value);
+                LogLevel = int.Parse(logLevel.ToList()[0].Value);
             }
             catch (Exception e) {
                 //Ignore

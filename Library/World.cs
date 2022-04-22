@@ -48,7 +48,7 @@ namespace Library {
 
         private World() {
             #region Tracing
-            TraceSetup();
+            if (Configuration.LogLevel < 5) TraceSetup();
             #endregion
 
             ViewPosition = new Position(0, 0);
@@ -57,13 +57,13 @@ namespace Library {
             Items = new List<WorldItem>();
 
             #region Tracing
-            Trace("Attempting to configure");
+            if (Configuration.LogLevel < 4) Trace("Attempting to configure");
             #endregion
             string configPath = Directory.GetCurrentDirectory() + "\\config_file.xml";
             Configuration.LoadConfig(configPath);
             Configuration.SaveConfig(configPath);
             #region Tracing
-            Trace("Configuration completed");
+            if (Configuration.LogLevel < 4) Trace("Configuration completed");
             #endregion
 
         }

@@ -1,4 +1,5 @@
-﻿using Library.Inventory;
+﻿using Library.Config;
+using Library.Inventory;
 using Library.Util;
 
 namespace Library.Entities.Abstracts {
@@ -64,7 +65,7 @@ namespace Library.Entities.Abstracts {
 
         public void TryMoveTo(Position target) {
             #region Tracing
-            World.Singleton.Trace($"{this} is trying to move to {target}");
+            if(Configuration.LogLevel < 2) World.Singleton.Trace($"{this} is trying to move to {target}");
             #endregion
 
             Entity? e = World.Singleton.PositionOccupiedBy(target);
@@ -73,7 +74,7 @@ namespace Library.Entities.Abstracts {
                     Structure s = (Structure)e;
                     if (!s.EffectOnTryEnter(this, Position)) {
                         #region Tracing
-                        World.Singleton.Trace($"{this} failed to enter {s}");
+                        if (Configuration.LogLevel < 3) World.Singleton.Trace($"{this} failed to enter {s}");
                         #endregion
                         return;
                     }
@@ -82,14 +83,14 @@ namespace Library.Entities.Abstracts {
                     if (i.CanPickup(this)) {
                         i.OnPickup(this);
                         #region Tracing
-                        World.Singleton.Trace($"{this} picked up {i}");
+                        if (Configuration.LogLevel < 4) World.Singleton.Trace($"{this} picked up {i}");
                         #endregion
                         if (i.TakesMovementToPickup(this)) {
                             return;
                         }
                     } else if (!i.AllowWalkover(this)) {
                         #region Tracing
-                        World.Singleton.Trace($"{this} walked over {i}");
+                        if (Configuration.LogLevel < 3) World.Singleton.Trace($"{this} walked over {i}");
                         #endregion
                         return;
                     }
@@ -97,7 +98,7 @@ namespace Library.Entities.Abstracts {
                     Creature c = (Creature)e;
                     c.OnAttacked(this);
                     #region Tracing
-                    World.Singleton.Trace($"{this} attacked {c}");
+                    if (Configuration.LogLevel < 3) World.Singleton.Trace($"{this} attacked {c}");
                     #endregion
                     return;
                 }
@@ -105,12 +106,15 @@ namespace Library.Entities.Abstracts {
             Position = target;
 
             #region Tracing
-            World.Singleton.Trace($"{this} moved to {target}");
+            if (Configuration.LogLevel < 2) World.Singleton.Trace($"{this} moved to {target}");
             #endregion
         }
 
         public virtual void OnAttacked(Creature attacker) {
             int damage = attacker.AttackPower / this.DefencePower;
+            #region Tracing
+            if (Configuration.LogLevel < 4) World.Singleton.Trace($"{attacker} dealt {damage} damage to {this}");
+            #endregion
             this.HitPoints -= damage;
         }
 
