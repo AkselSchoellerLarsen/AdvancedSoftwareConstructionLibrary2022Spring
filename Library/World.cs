@@ -69,8 +69,9 @@ namespace Library {
         }
 
         public void Tick() {
-            foreach (Creature creature in Creatures) {
-                creature.Tick();
+            //Need to modify the list inside the loop, so can't use foreach.
+            for(int i=0; i<Creatures.Count; i++) {
+                Creatures[i].Tick();
             }
         }
 

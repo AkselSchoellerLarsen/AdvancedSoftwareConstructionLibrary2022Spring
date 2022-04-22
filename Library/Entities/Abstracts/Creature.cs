@@ -20,6 +20,8 @@ namespace Library.Entities.Abstracts {
                     _hitPoints = MaxHitPoints;
                 } else if(value <= 0) {
                     World.Singleton.Creatures.Remove(this);
+                } else {
+                    _hitPoints = value;
                 }
             }
         }
