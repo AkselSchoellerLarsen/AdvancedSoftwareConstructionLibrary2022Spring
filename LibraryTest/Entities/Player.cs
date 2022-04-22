@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 
 namespace LibraryTest.Entities {
     public class Player : Creature {
+        protected override int BaseHitPoints => throw new NotImplementedException();
+
+        protected override int BaseAttackPower => throw new NotImplementedException();
+
+        protected override int BaseDefencePower => throw new NotImplementedException();
+
         public Player(Position pos) : base(pos) {
         
         }
