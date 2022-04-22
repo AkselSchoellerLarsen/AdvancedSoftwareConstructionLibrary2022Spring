@@ -8,7 +8,6 @@ namespace LibraryTest {
             Task.Run(() => {
                 while(true) {
                     Thread.Sleep(1000);
-                    World.Singleton.Tick();
                     Invalidate();
                 }
             });

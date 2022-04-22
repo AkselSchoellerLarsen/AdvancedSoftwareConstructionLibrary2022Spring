@@ -14,25 +14,55 @@ namespace LibraryTest {
 
         private static void SetupGameWorld() {
             World.Singleton.ViewPosition = new Position(0, 0);
-            
-            World.Singleton.Creatures.Add(new Player(new Position(0, 0)));
-            World.Singleton.Creatures.Add(new Player(new Position(1, 1)));
-            World.Singleton.Creatures.Add(new Player(new Position(5, 5)));
+
+            Player player = new Player(new Position(0, 0));
+            World.Singleton.Creatures.Add(player);
 
             InputHandler.Singleton.AddInputListener(
                 new InputListener(Keys.W, (k) => {
-                    World.Singleton.ViewPosition.y--;
+                    player.TryMoveTo(
+                        new Position(player.Position.x,
+                        player.Position.y - 1));
+                    World.Singleton.Tick();
                 }));
             InputHandler.Singleton.AddInputListener(
                 new InputListener(Keys.S, (k) => {
-                    World.Singleton.ViewPosition.y++;
+                    player.TryMoveTo(
+                        new Position(player.Position.x,
+                        player.Position.y + 1));
+                    World.Singleton.Tick();
                 }));
             InputHandler.Singleton.AddInputListener(
                 new InputListener(Keys.D, (k) => {
-                    World.Singleton.ViewPosition.x++;
+                    player.TryMoveTo(
+                        new Position(player.Position.x + 1,
+                        player.Position.y));
+                    World.Singleton.Tick();
                 }));
             InputHandler.Singleton.AddInputListener(
                 new InputListener(Keys.A, (k) => {
+                    player.TryMoveTo(
+                        new Position(player.Position.x - 1,
+                        player.Position.y));
+                    World.Singleton.Tick();
+                }));
+
+
+
+            InputHandler.Singleton.AddInputListener(
+                new InputListener(Keys.Up, (k) => {
+                    World.Singleton.ViewPosition.y--;
+                }));
+            InputHandler.Singleton.AddInputListener(
+                new InputListener(Keys.Down, (k) => {
+                    World.Singleton.ViewPosition.y++;
+                }));
+            InputHandler.Singleton.AddInputListener(
+                new InputListener(Keys.Right, (k) => {
+                    World.Singleton.ViewPosition.x++;
+                }));
+            InputHandler.Singleton.AddInputListener(
+                new InputListener(Keys.Left, (k) => {
                     World.Singleton.ViewPosition.x--;
                 }));
         }

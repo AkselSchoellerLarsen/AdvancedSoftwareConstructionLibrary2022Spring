@@ -16,15 +16,11 @@ namespace LibraryTest.Entities {
         protected override int BaseDefencePower => throw new NotImplementedException();
 
         public Player(Position pos) : base(pos) {
-        
-        }
-
-        public override void OnAttacked(Creature attacker) {
-            throw new NotImplementedException();
+            
         }
 
         public override void Tick() {
-            throw new NotImplementedException();
+
         }
 
         public override void Draw(Graphics g) {

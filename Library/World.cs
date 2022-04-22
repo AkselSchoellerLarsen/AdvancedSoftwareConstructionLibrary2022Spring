@@ -16,11 +16,11 @@ namespace Library {
         public List<Structure> Structures { get; private set; }
         public List<WorldItem> Items { get; private set; }
 
-
-
         private World() {
             ViewPosition = new Position(0, 0);
             Creatures = new List<Creature>();
+            Structures = new List<Structure>();
+            Items = new List<WorldItem>();
 
             string configPath = Directory.GetCurrentDirectory() + "\\config_file.xml";
             Configuration.LoadConfig(configPath);
@@ -28,7 +28,9 @@ namespace Library {
         }
 
         public void Tick() {
-
+            foreach (Creature creature in Creatures) {
+                creature.Tick();
+            }
         }
 
         public Entity PositionOccupiedBy(Position? pos) {
@@ -55,8 +57,14 @@ namespace Library {
         }
 
         public void OnPaint(PaintEventArgs e) {
+            foreach (Structure structure in Structures) {
+                structure.Draw(e.Graphics);
+            }
             foreach (Creature creature in Creatures) {
                 creature.Draw(e.Graphics);
+            }
+            foreach (WorldItem item in Items) {
+                item.Draw(e.Graphics);
             }
         }
     }
