@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LibraryTest.Inventory {
-    public class EquipmentRingmail : EquipmentArmor {
-        public EquipmentRingmail(int dpOffset, int hpOffset = 0) : base(dpOffset, hpOffset) {
-            
+    public class EquipmentAxe : EquipmentWeapon {
+        public EquipmentAxe(int level) : base(level*2) {
+
         }
     }
 }

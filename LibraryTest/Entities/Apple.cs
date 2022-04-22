@@ -15,7 +15,6 @@ namespace LibraryTest.Entities {
         }
 
         public override bool CanPickup(Creature walker) {
-            return true;
             if(walker.HitPoints < walker.MaxHitPoints) {
                 return true;
             }

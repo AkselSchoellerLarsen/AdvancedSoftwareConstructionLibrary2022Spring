@@ -14,6 +14,7 @@ namespace Library.Config {
         public static int GridSizeY = 50;
         public static bool ShouldConsoleTrace = true;
         public static bool ShouldFileTrace = true;
+        public static int LogLevel = 1;
 
         public static void LoadConfig(string configFilePath) {
             try {
@@ -34,6 +35,18 @@ namespace Library.Config {
                 IEnumerable<XElement> gridY =
                     doc.Descendants().Where(tag => tag.Name == "GridSizeY");
                 GridSizeY = int.Parse(gridY.ToList()[0].Value);
+
+                IEnumerable<XElement> consoleTrace =
+                    doc.Descendants().Where(tag => tag.Name == "ShouldConsoleTrace");
+                GridSizeY = int.Parse(gridY.ToList()[0].Value);
+
+                IEnumerable<XElement> fileTrace =
+                    doc.Descendants().Where(tag => tag.Name == "ShouldFileTrace");
+                GridSizeY = int.Parse(gridY.ToList()[0].Value);
+
+                IEnumerable<XElement> logLevel =
+                    doc.Descendants().Where(tag => tag.Name == "LogLevel");
+                GridSizeY = int.Parse(gridY.ToList()[0].Value);
             }
             catch (Exception e) {
                 //Ignore
@@ -48,7 +61,10 @@ namespace Library.Config {
                         writer.WriteElementString("ScreenSizeY", ScreenSizeY.ToString());
                         writer.WriteElementString("GridSizeX", GridSizeX.ToString());
                         writer.WriteElementString("GridSizeY", GridSizeY.ToString());
-                    writer.WriteEndElement();
+                        writer.WriteElementString("ShouldConsoleTrace", ShouldConsoleTrace.ToString());
+                        writer.WriteElementString("ShouldFileTrace", ShouldFileTrace.ToString());
+                        writer.WriteElementString("LogLevel", LogLevel.ToString());
+                writer.WriteEndElement();
                 writer.WriteEndDocument();
                 writer.Flush();
             }

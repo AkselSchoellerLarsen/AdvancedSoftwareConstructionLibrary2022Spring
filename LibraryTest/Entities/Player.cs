@@ -44,7 +44,7 @@ namespace LibraryTest.Entities {
                 } else if(i < 9) {
                     World.Singleton.Items.Add(new Apple(p, r.Next(1, 4)));
                 } else {
-                    //Spawn equipment
+                    World.Singleton.Items.Add(new Chest(p));
                 }
             }
             World.Singleton.ViewPosition = new Position(Position.x-5, Position.y-5);
@@ -57,6 +57,18 @@ namespace LibraryTest.Entities {
             g.FillEllipse(new SolidBrush(Color.Red),
                GraphicsHelper.RectangleCenteredOn(Position,
                1.0d * HitPoints / MaxHitPoints, 1.0d * HitPoints / MaxHitPoints));
+
+            Pen dpPen = new Pen(Color.Silver);
+            dpPen.Width = DefencePower;
+
+            g.DrawEllipse(dpPen,
+               GraphicsHelper.RectangleCenteredOn(Position, 1.1, 1.1));
+
+            Pen apPen = new Pen(Color.Gold);
+            apPen.Width = (AttackPower+1)/2;
+
+            g.DrawEllipse(apPen,
+               GraphicsHelper.RectangleCenteredOn(Position, 1.3, 1.3));
         }
     }
 }

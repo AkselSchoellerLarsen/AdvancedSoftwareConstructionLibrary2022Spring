@@ -40,7 +40,7 @@ namespace Library.Entities.Abstracts {
             get {
                 int re = BaseAttackPower;
 
-                foreach (EquipmentWeapon weapon in Equipment) {
+                foreach (EquipmentWeapon weapon in Equipment.OfType<EquipmentWeapon>()) {
                     re += weapon.APOffset;
                 }
 
@@ -51,7 +51,7 @@ namespace Library.Entities.Abstracts {
             get {
                 int re = BaseDefencePower;
 
-                foreach (EquipmentArmor armor in Equipment) {
+                foreach (EquipmentArmor armor in Equipment.OfType<EquipmentArmor>()) {
                     re += armor.DPOffset;
                 }
 
